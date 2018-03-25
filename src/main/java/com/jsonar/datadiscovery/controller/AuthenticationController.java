@@ -13,7 +13,7 @@ public class AuthenticationController implements Serializable {
 	
 	private static final long serialVersionUID = 1370127878912965125L;
 
-	private static final String DATADISCOVERY_PAGE_PATH = "/datadiscovery.xhtml?faces-redirect=true";
+	private static final String DATADISCOVERY_PAGE_PATH = "/secured/datadiscovery.xhtml?faces-redirect=true";
 
 	private User user;
 	
@@ -59,4 +59,5 @@ public class AuthenticationController implements Serializable {
 
 		return null;
 	}
+	
 }
