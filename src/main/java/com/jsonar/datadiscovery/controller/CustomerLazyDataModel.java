@@ -43,9 +43,11 @@ public class CustomerLazyDataModel extends LazyDataModel<Customer> {
 		
 		try {
 			
+			System.out.println(filters);
+			
 			CustomerDataAccessObjet customerDataAccess = new CustomerDataAccessObjet(connection);
-			setRowCount(customerDataAccess.getTotalCustomers());
-			customers = customerDataAccess.getCustomers(first, pageSize);
+			setRowCount(customerDataAccess.getTotalCustomers(filters));
+			customers = customerDataAccess.getCustomers(first, pageSize, filters);
 			return customers;
 			
 		} catch (SQLException e) {

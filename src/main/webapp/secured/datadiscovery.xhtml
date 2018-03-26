@@ -25,18 +25,14 @@
 		
 	        <f:facet name="header">
 	            Customers
-	            <p:outputPanel>
-	                <h:outputText value="Search all fields:" />
-	                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
-	            </p:outputPanel>
 	        </f:facet>
-	        <p:column headerText="Number">
+	        <p:column headerText="Number" filterBy="#{customer.number}">
 	            <h:outputText value="#{customer.number}" />
 	        </p:column>
-	        <p:column headerText="Name">
+	        <p:column headerText="Name" filterBy="#{customer.name}">
 	            <h:outputText value="#{customer.name}" />
 	        </p:column>
-	        <p:column headerText="Credit Limit">
+	        <p:column headerText="Credit Limit" filterBy="#{customer.creditLimit}">
 	            <h:outputText value="#{customer.creditLimit}" />
 	        </p:column>
 	    </p:dataTable>
