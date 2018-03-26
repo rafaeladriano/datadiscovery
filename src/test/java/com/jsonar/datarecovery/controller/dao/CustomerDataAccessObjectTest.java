@@ -31,16 +31,16 @@ public class CustomerDataAccessObjectTest {
 	}
 
 	@Test
-	public void testSelectAll() throws SQLException {
+	public void testSelectPage() throws SQLException {
 		CustomerDataAccessObjet customerDAO = new CustomerDataAccessObjet(connection);
-		List<Customer> customers = customerDAO.getCustomers();
-		assertEquals(122, customers.size());
+		List<Customer> customers = customerDAO.getCustomers(0, 10);
+		assertEquals(10, customers.size());
 	}
 
 	@Test
 	public void testSelectFirst() throws SQLException {
 		CustomerDataAccessObjet customerDAO = new CustomerDataAccessObjet(connection);
-		List<Customer> customers = customerDAO.getCustomers();
+		List<Customer> customers = customerDAO.getCustomers(0, 1);
 		
 		Customer customer = customers.get(0);
 		
@@ -64,7 +64,7 @@ public class CustomerDataAccessObjectTest {
 	@Test
 	public void testSelectLast() throws SQLException {
 		CustomerDataAccessObjet customerDAO = new CustomerDataAccessObjet(connection);
-		List<Customer> customers = customerDAO.getCustomers();
+		List<Customer> customers = customerDAO.getCustomers(121, 1);
 		
 		Customer customer = customers.get(customers.size() - 1);
 		

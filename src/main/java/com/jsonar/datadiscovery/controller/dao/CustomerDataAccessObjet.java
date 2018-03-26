@@ -12,34 +12,57 @@ import com.jsonar.datadiscovery.model.Contact;
 import com.jsonar.datadiscovery.model.Customer;
 
 public class CustomerDataAccessObjet {
-	
-	private PreparedStatement selectAll;
-	
+
+	private final PreparedStatement selectTotal;
+	private final PreparedStatement selectAllByPage;
+
 	public CustomerDataAccessObjet(Connection connection) throws SQLException {
-		selectAll = connection.prepareStatement("select * from customers order by customerName");
+		selectAllByPage = connection.prepareStatement("select * from customers order by customerName limit ?, ?");
+		selectTotal = connection.prepareStatement("select count(*) from customers");
 	}
-	
-	public List<Customer> getCustomers() throws SQLException {
-		List<Customer> customers = new ArrayList<>();
-		ResultSet resultSet = selectAll.executeQuery();
-		
+
+	public int getTotalCustomers() throws SQLException {
+
+		ResultSet resultSet = selectTotal.executeQuery();
 		try {
 			
-			while (resultSet.next()) {
-				customers.add(createCustomer(resultSet));
+			if (resultSet.next()) {
+				return resultSet.getInt(1);
 			}
-			
-			return customers;
+			return 0;
 			
 		} finally {
 			resultSet.close();
 		}
-		
+
 	}
-	
+
+	public List<Customer> getCustomers(int first, int pageSize) throws SQLException {
+
+		selectAllByPage.setInt(1, first);
+		selectAllByPage.setInt(2, pageSize);
+
+		ResultSet resultSet = selectAllByPage.executeQuery();
+
+		List<Customer> customers = new ArrayList<>();
+
+		try {
+
+			while (resultSet.next()) {
+				customers.add(createCustomer(resultSet));
+			}
+
+			return customers;
+
+		} finally {
+			resultSet.close();
+		}
+
+	}
+
 	private Customer createCustomer(ResultSet result) throws SQLException {
 		Customer customer = new Customer(result.getLong("customerNumber"));
-		
+
 		Address address = new Address();
 		address.setAddressLine1(result.getString("addressLine1"));
 		address.setAddressLine2(result.getString("addressLine2"));
@@ -47,19 +70,18 @@ public class CustomerDataAccessObjet {
 		address.setCity(result.getString("city"));
 		address.setState(result.getString("state"));
 		address.setCountry(result.getString("country"));
-		
+
 		Contact contact = new Contact();
 		contact.setFirstName(result.getString("contactFirstName"));
 		contact.setLastName(result.getString("contactLastName"));
 		contact.setPhone(result.getString("phone"));
-		
+
 		customer.setName(result.getString("customerName"));
 		customer.setCreditLimit(result.getBigDecimal("creditLimit"));
 		customer.setAddress(address);
 		customer.setContact(contact);
-		
+
 		return customer;
 	}
-	
 
 }

@@ -12,7 +12,36 @@
 
 <h:body>
 
-	<h1>Ola!</h1>
+	<h:form id="form">
+	
+	    <p:growl id="msgs" showDetail="true" />
+                 
+		<p:dataTable id="customersDataTable" var="customer" value="#{dataDiscoveryController.lazyDataModel}" 
+		paginator="true" rows="10" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+		rowsPerPageTemplate="5,10,15" lazy="true"
+		selection="#{dataDiscoveryController.selectedCustomer}" rowKey="#{customer.number}">
+		
+		<!-- emptyMessage="No customers found with given criteria" filteredValue="#{dataDiscoveryController.filteredCustomers}" -->
+		
+	        <f:facet name="header">
+	            Customers
+	            <p:outputPanel>
+	                <h:outputText value="Search all fields:" />
+	                <p:inputText id="globalFilter" onkeyup="PF('carsTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+	            </p:outputPanel>
+	        </f:facet>
+	        <p:column headerText="Number">
+	            <h:outputText value="#{customer.number}" />
+	        </p:column>
+	        <p:column headerText="Name">
+	            <h:outputText value="#{customer.name}" />
+	        </p:column>
+	        <p:column headerText="Credit Limit">
+	            <h:outputText value="#{customer.creditLimit}" />
+	        </p:column>
+	    </p:dataTable>
+	    
+	</h:form>
 
 </h:body>
 </html>

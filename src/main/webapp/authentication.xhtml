@@ -9,7 +9,7 @@
 <h:head>
 	<title>Authentication</title>
 	<f:metadata>
-		<f:viewAction action="#{authenticationController.attemptRedirect()}" />
+		<f:viewAction action="#{authenticationController.attemptRedirect}" />
 	</f:metadata>
 </h:head>
 
@@ -41,7 +41,7 @@
 			</h:panelGrid>
 
 			<p:commandButton id="login" value="Login" update="panel messages"
-				action="#{authenticationController.authenticate()}" />
+				action="#{authenticationController.authenticate}" />
 				
 		</p:panel>
 
