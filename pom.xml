@@ -27,7 +27,7 @@
 		<servlet.version>3.1.0</servlet.version>
 		<jsf.version>2.2.15</jsf.version>
 		<primefaces.version>6.1</primefaces.version>
-		<primefaces.themes.version>1.0.1</primefaces.themes.version>
+		<primefaces.themes.version>1.0.10</primefaces.themes.version>
 
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
 		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
@@ -95,7 +95,7 @@
 
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
-			<artifactId>aristo</artifactId>
+			<artifactId>all-themes</artifactId>
 			<version>${primefaces.themes.version}</version>
 		</dependency>
 
