@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Table
-public class ProductOrder implements Serializable {
+public class OrderDetail implements Serializable {
 	
 	private static final long serialVersionUID = 7822205947570726040L;
 

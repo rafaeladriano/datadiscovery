@@ -1,6 +1,7 @@
 package com.jsonar.datadiscovery.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +34,6 @@ public class Order implements Serializable {
 	@Column
 	private String comments;
 	
-	private List<ProductOrder> products;
+	private List<OrderDetail> details = new ArrayList<>();
 	
 }
