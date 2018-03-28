@@ -33,11 +33,11 @@ public class DataDiscoveryController implements Serializable {
 	@Getter
 	@Setter
 	private List<Order> orders = new ArrayList<>();
-	
+
 	@Getter
 	@Setter
 	private List<OrderDetail> orderDetails = new ArrayList<>();
-
+	
 	@PostConstruct
 	public void initialize() {
 		lazyDataModel = new CustomerLazyDataModel();
@@ -50,6 +50,7 @@ public class DataDiscoveryController implements Serializable {
 		try {
 			OrderDataAccessObject orderDataAccess = new OrderDataAccessObject(connection);
 			orders = orderDataAccess.getOrders(customer);
+			orderDetails.clear();
 		} catch (SQLException e) {
 			// TODO tratar excecao
 			e.printStackTrace();
@@ -62,4 +63,5 @@ public class DataDiscoveryController implements Serializable {
 		Order order = (Order) event.getObject();
 		orderDetails = order.getDetails();
 	}
+
 }

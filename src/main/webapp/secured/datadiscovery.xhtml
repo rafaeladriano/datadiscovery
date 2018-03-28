@@ -15,73 +15,87 @@
 	<h:form id="form">
 	
 	    <p:growl id="messages" showDetail="true" />
+	    
+	    <div style="margin: 20px">
                  
-		<p:dataTable id="customersDataTable" var="customer" value="#{dataDiscoveryController.lazyDataModel}" 
-		paginator="true" rows="10" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
-		rowsPerPageTemplate="5,10,15" lazy="true" rowKey="#{customer.number}">
-		
-		<!-- emptyMessage="No customers found with given criteria" filteredValue="#{dataDiscoveryController.filteredCustomers}" -->
-		
-	        <f:facet name="header">
-	            Customers
-	        </f:facet>
-	        
-	        <p:ajax event="rowSelect" listener="#{dataDiscoveryController.onCustomerSelect}" update=":form:orderDataTable" />
-	        
-	        <p:column headerText="Number" filterBy="#{customer.number}">
-	            <h:outputText value="#{customer.number}" />
-	        </p:column>
-	        <p:column headerText="Name" filterBy="#{customer.name}">
-	            <h:outputText value="#{customer.name}" />
-	        </p:column>
-	        <p:column headerText="Credit Limit" filterBy="#{customer.creditLimit}">
-	            <h:outputText value="#{customer.creditLimit}" />
-	        </p:column>
-	        
-	    </p:dataTable>
+			<p:dataTable id="customersDataTable" var="customer" value="#{dataDiscoveryController.lazyDataModel}" 
+			paginator="true" rows="10" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+			rowsPerPageTemplate="5,10,15" paginatorPosition="bottom" lazy="true" rowKey="#{customer.number}">
+			
+			<!-- emptyMessage="No customers found with given criteria" filteredValue="#{dataDiscoveryController.filteredCustomers}" -->
+			
+		        <f:facet name="header">
+		            Customers
+		        </f:facet>
+		        
+		        <p:ajax event="rowSelect" listener="#{dataDiscoveryController.onCustomerSelect}" update=":form:orderDataTable :form:orderDetailsDataTable" />
+		        
+		        <p:column headerText="Number" filterBy="#{customer.number}">
+		            <h:outputText value="#{customer.number}" />
+		        </p:column>
+		        <p:column headerText="Name" filterBy="#{customer.name}">
+		            <h:outputText value="#{customer.name}" />
+		        </p:column>
+		        <p:column headerText="Credit Limit" filterBy="#{customer.creditLimit}">
+		            <h:outputText value="#{customer.creditLimit}" />
+		        </p:column>
+		        
+		    </p:dataTable>
 	    
-	    <p:dataTable id="orderDataTable" var="order" value="#{dataDiscoveryController.orders}" 
-		paginator="true" rows="10" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
-		rowsPerPageTemplate="5,10,15" rowKey="#{order.number}">
-		
-	        <f:facet name="header">
-	            Orders
-	        </f:facet>
-	        
-	        <p:ajax event="rowSelect" listener="#{dataDiscoveryController.onOrderSelect}" update=":form:orderDetailsDataTable" />
-	        
-	        <p:column headerText="Number">
-	            <h:outputText value="#{order.number}" />
-	        </p:column>
-	        <p:column headerText="Date">
-	            <h:outputText value="#{order.date}" />
-	            <f:convertDateTime pattern="yyyy/MM/dd" />
-	        </p:column>
-	        <p:column headerText="Date Required">
-	            <h:outputText value="#{order.required}" />
-	            <f:convertDateTime pattern="yyyy/MM/dd" />
-	        </p:column>
-	    </p:dataTable>
+	    </div>
 	    
-	    <p:dataTable id="orderDetailsDataTable" var="orderDetail" value="#{dataDiscoveryController.orderDetails}" 
-		paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
-		rowsPerPageTemplate="5,10,15">
-		
-	        <f:facet name="header">
-	            Order Details
-	        </f:facet>
-	        
-	        <p:column headerText="Product Name">
-	            <h:outputText value="#{orderDetail.product.name}" />
-	        </p:column>
-	        <p:column headerText="Quantity">
-	            <h:outputText value="#{orderDetail.quantity}" />
-	        </p:column>
-	        <p:column headerText="Product Price">
-	            <h:outputText value="#{orderDetail.productPrice}" />
-	        </p:column>
-	        
-	    </p:dataTable>
+	    <div style="margin: 20px">
+	    
+		    <p:dataTable id="orderDataTable" var="order" value="#{dataDiscoveryController.orders}" 
+			paginator="true" rows="10" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+			rowsPerPageTemplate="5,10,15" paginatorPosition="bottom" rowKey="#{order.number}">
+			
+		        <f:facet name="header">
+		            Orders
+		        </f:facet>
+		        
+		        <p:ajax event="rowSelect" listener="#{dataDiscoveryController.onOrderSelect}" update=":form:orderDetailsDataTable" />
+		        
+		        <p:column headerText="Number">
+		            <h:outputText value="#{order.number}" />
+		        </p:column>
+		        <p:column headerText="Date">
+		            <h:outputText value="#{order.date}">
+		            	<f:convertDateTime pattern="yyyy/MM/dd" />
+		            </h:outputText>
+		        </p:column>
+		        <p:column headerText="Date Required">
+		            <h:outputText value="#{order.required}">
+		            	<f:convertDateTime pattern="yyyy/MM/dd" />
+		            </h:outputText>
+		        </p:column>
+		    </p:dataTable>
+		    
+	    </div>
+	    
+	    <div style="margin: 20px">
+	    
+		    <p:dataTable id="orderDetailsDataTable" var="orderDetail" value="#{dataDiscoveryController.orderDetails}" 
+			paginator="true" rows="10" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+			rowsPerPageTemplate="5,10,15" paginatorPosition="bottom">
+			
+		        <f:facet name="header">
+		            Order Details
+		        </f:facet>
+		        
+		        <p:column headerText="Product Name">
+		            <h:outputText value="#{orderDetail.product.name}" />
+		        </p:column>
+		        <p:column headerText="Quantity">
+		            <h:outputText value="#{orderDetail.quantity}" />
+		        </p:column>
+		        <p:column headerText="Product Price">
+		            <h:outputText value="#{orderDetail.productPrice}" />
+		        </p:column>
+		        
+		    </p:dataTable>
+		    
+	    </div>
 	    
 	</h:form>
 

@@ -1,5 +1,7 @@
 package com.jsonar.datadiscovery.controller;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
@@ -7,7 +9,9 @@ import com.jsonar.datadiscovery.model.User;
 
 @ManagedBean(name = "authenticationService")
 @ApplicationScoped
-public class AuthenticationService {
+public class AuthenticationService implements Serializable {
+
+	private static final long serialVersionUID = 3256521192094135982L;
 
 	private final static User[] USERS;
 
