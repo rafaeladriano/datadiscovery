@@ -13,8 +13,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jsonar.datadiscovery.controller.dao.ConnectionPool;
-import com.jsonar.datadiscovery.controller.dao.CustomerDataAccessObjet;
+import com.jsonar.datadiscovery.dao.ConnectionPool;
+import com.jsonar.datadiscovery.dao.CustomerDataAccessObjet;
 import com.jsonar.datadiscovery.model.Customer;
 
 public class CustomerDataAccessObjectTest {

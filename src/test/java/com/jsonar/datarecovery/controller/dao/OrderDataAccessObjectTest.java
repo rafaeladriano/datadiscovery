@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.jsonar.datadiscovery.controller.dao.ConnectionPool;
-import com.jsonar.datadiscovery.controller.dao.OrderDataAccessObject;
+import com.jsonar.datadiscovery.dao.ConnectionPool;
+import com.jsonar.datadiscovery.dao.OrderDataAccessObject;
 import com.jsonar.datadiscovery.model.Customer;
 import com.jsonar.datadiscovery.model.Order;
 

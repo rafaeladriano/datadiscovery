@@ -1,4 +1,4 @@
-package com.jsonar.datadiscovery.controller.dao;
+package com.jsonar.datadiscovery.dao;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

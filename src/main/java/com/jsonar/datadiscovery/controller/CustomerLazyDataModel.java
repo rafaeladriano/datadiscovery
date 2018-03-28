@@ -9,8 +9,8 @@ import java.util.Map;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
-import com.jsonar.datadiscovery.controller.dao.ConnectionPool;
-import com.jsonar.datadiscovery.controller.dao.CustomerDataAccessObjet;
+import com.jsonar.datadiscovery.dao.ConnectionPool;
+import com.jsonar.datadiscovery.dao.CustomerDataAccessObjet;
 import com.jsonar.datadiscovery.model.Customer;
 
 public class CustomerLazyDataModel extends LazyDataModel<Customer> {
