@@ -18,33 +18,29 @@
 	<h:form id="login-form">
 		<p:messages id="messages" showDetail="false" />
 
-		<p:panel id="panel" header="Login">
+		<p:panel id="panelAuthentication" header="Authentication" style="width:380px;height:180px;margin:auto" >
 		
 			<h:panelGrid columns="3" cellpadding="5">
 			
-				<p:outputLabel for="user-name" value="Username:" />
-				<p:inputText id="user-name"
-					value="#{authenticationController.username}" required="true"
-					label="User name">
+				<p:outputLabel for="username" value="Username:" />
+				<p:inputText id="username" value="#{authenticationController.username}" required="true" label="Username">
 					<f:validateLength minimum="3" />
 				</p:inputText>
-				<p:message for="user-name" display="icon" />
+				<p:message for="username" display="icon" />
 
 				<p:outputLabel for="password" value="Password:" />
-				<p:password id="password"
-					value="#{authenticationController.password}" required="true"
-					label="Password">
+				<p:password id="password" value="#{authenticationController.password}" required="true" label="Password">
 					<f:validateLength minimum="3" />
 				</p:password>
 				<p:message for="password" display="icon" />
 				
 			</h:panelGrid>
 
-			<p:commandButton id="login" value="Login" update="panel messages"
+			<p:commandButton id="login" value="Login" update="panelAuthentication messages"
 				action="#{authenticationController.authenticate}" />
 				
 		</p:panel>
-
+		
 	</h:form>
 
 </h:body>
