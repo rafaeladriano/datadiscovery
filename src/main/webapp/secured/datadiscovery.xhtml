@@ -22,8 +22,6 @@
 			paginator="true" rows="10" selectionMode="single" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 			rowsPerPageTemplate="5,10,15" paginatorPosition="bottom" lazy="true" rowKey="#{customer.number}">
 			
-			<!-- emptyMessage="No customers found with given criteria" filteredValue="#{dataDiscoveryController.filteredCustomers}" -->
-			
 		        <f:facet name="header">
 		            Customers
 		        </f:facet>
@@ -37,9 +35,37 @@
 		            <h:outputText value="#{customer.name}" />
 		        </p:column>
 		        <p:column headerText="Credit Limit" filterBy="#{customer.creditLimit}">
-		            <h:outputText value="#{customer.creditLimit}" />
+		            <h:outputText value="#{customer.creditLimit}">
+		            	<f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+		            </h:outputText>
 		        </p:column>
-		        
+		        <p:column headerText="Contact First Name" filterBy="#{customer.contact.firstName}">
+		            <h:outputText value="#{customer.contact.firstName}" />
+		        </p:column>
+		        <p:column headerText="Contact Last Name" filterBy="#{customer.contact.lastName}">
+		            <h:outputText value="#{customer.contact.lastName}" />
+		        </p:column>
+		        <p:column headerText="Contact Phone" filterBy="#{customer.contact.phone}">
+		            <h:outputText value="#{customer.contact.phone}" />
+		        </p:column>
+		        <p:column headerText="Country" filterBy="#{customer.address.country}">
+		            <h:outputText value="#{customer.address.country}" />
+		        </p:column>
+		        <p:column headerText="State" filterBy="#{customer.address.state}">
+		            <h:outputText value="#{customer.address.state}" />
+		        </p:column>
+		        <p:column headerText="City" filterBy="#{customer.address.city}">
+		            <h:outputText value="#{customer.address.city}" />
+		        </p:column>
+		        <p:column headerText="Postal Code" filterBy="#{customer.address.postalCode}">
+		            <h:outputText value="#{customer.address.postalCode}" />
+		        </p:column>
+		        <p:column headerText="Address 1" filterBy="#{customer.address.addressLine1}">
+		            <h:outputText value="#{customer.address.addressLine1}" />
+		        </p:column>
+		        <p:column headerText="Address 2" filterBy="#{customer.address.addressLine2}">
+		            <h:outputText value="#{customer.address.addressLine2}" />
+		        </p:column>
 		    </p:dataTable>
 	    
 	    </div>
@@ -69,6 +95,17 @@
 		            	<f:convertDateTime pattern="yyyy/MM/dd" />
 		            </h:outputText>
 		        </p:column>
+		        <p:column headerText="Date Required">
+		            <h:outputText value="#{order.shipped}">
+		            	<f:convertDateTime pattern="yyyy/MM/dd" />
+		            </h:outputText>
+		        </p:column>
+		        <p:column headerText="Status">
+		            <h:outputText value="#{order.status}" />
+		        </p:column>
+		        <p:column headerText="Comments">
+		            <h:outputText value="#{order.comments}" />
+		        </p:column>
 		    </p:dataTable>
 		    
 	    </div>
@@ -83,6 +120,12 @@
 		            Order Details
 		        </f:facet>
 		        
+		        <p:column headerText="Product Code">
+		            <h:outputText value="#{orderDetail.product.code}" />
+		        </p:column>
+		        <p:column headerText="Product Category">
+		            <h:outputText value="#{orderDetail.product.category.name}" />
+		        </p:column>
 		        <p:column headerText="Product Name">
 		            <h:outputText value="#{orderDetail.product.name}" />
 		        </p:column>
@@ -90,7 +133,23 @@
 		            <h:outputText value="#{orderDetail.quantity}" />
 		        </p:column>
 		        <p:column headerText="Product Price">
-		            <h:outputText value="#{orderDetail.productPrice}" />
+		            <h:outputText value="#{orderDetail.productPrice}" >
+		            	<f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+		            </h:outputText>
+		        </p:column>
+		        <p:column headerText="Product Scale">
+		            <h:outputText value="#{orderDetail.product.scale}" />
+		        </p:column>
+		        <p:column headerText="Product Vendor">
+		            <h:outputText value="#{orderDetail.product.vendor}" />
+		        </p:column>
+		        <p:column headerText="Product Buy Price">
+		            <h:outputText value="#{orderDetail.product.price}">
+		            	<f:convertNumber pattern="¤#,##0.00" currencySymbol="$" />
+		            </h:outputText>
+		        </p:column>
+		        <p:column headerText="Product Description">
+		            <h:outputText value="#{orderDetail.product.description}" />
 		        </p:column>
 		        
 		    </p:dataTable>

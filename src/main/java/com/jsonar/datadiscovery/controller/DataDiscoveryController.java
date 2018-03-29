@@ -37,7 +37,7 @@ public class DataDiscoveryController implements Serializable {
 	@Getter
 	@Setter
 	private List<OrderDetail> orderDetails = new ArrayList<>();
-	
+
 	@PostConstruct
 	public void initialize() {
 		lazyDataModel = new CustomerLazyDataModel();
