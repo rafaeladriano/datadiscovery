@@ -10,8 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.StringUtils;
 
 import com.jsonar.datadiscovery.configuration.Column;
@@ -85,10 +87,7 @@ public abstract class DataAccessObject<Model> {
 
 	protected String getColumn(Class<?> model, String fieldName) {
 		ColumnMapping columnMapping = getColumnMapping(model, fieldName);
-		if (columnMapping != null) {
-			return columnMapping.getColumnName();
-		}
-		return null;
+		return columnMapping.getColumnName();
 	}
 
 	private ColumnMapping getColumnMapping(Class<?> model, String fieldName) {
@@ -101,17 +100,47 @@ public abstract class DataAccessObject<Model> {
 			}
 		}
 
-		return null;
+		throw new IllegalArgumentException(String.format("Column not found for the field %s", fieldName));
+	}
+	
+	protected String createQueryFilter(Class<?> model, String alias, List<String> filterFields) {
+		
+		if (filterFields == null || filterFields.isEmpty()) {
+			return null;
+		}
+		
+		final String and = " and ";
+		
+		StringBuilder filter = new StringBuilder();
+		
+		for (String fieldName : filterFields) {
+			
+			if (!StringUtils.isEmpty(alias)) {
+				filter.append(alias).append(".");
+			}
+			
+			ColumnMapping columnMapping = getColumnMapping(model, fieldName);
+			
+			filter.append(columnMapping.getColumnName());
+			filter.append(getQueryComparator(columnMapping));
+			filter.append("?").append(and);
+			
+		}
+		filter.setLength(filter.length() - and.length());
+		
+		return filter.toString();
 	}
 
 	protected String createQueryProjection(Class<?> model, String alias) {
+		final String comma = ", ";
+		
 		StringBuilder projection = new StringBuilder();
 
 		TableMapping tableMapping = tablesMapping.get(model.getName());
 		for (ColumnMapping columnMapping : tableMapping.getColumns().values()) {
-			projection.append(alias).append(".").append(columnMapping.columnName).append(", ");
+			projection.append(alias).append(".").append(columnMapping.columnName).append(comma);
 		}
-		projection.setLength(projection.length() - ", ".length());
+		projection.setLength(projection.length() - comma.length());
 
 		return projection.toString();
 	}
@@ -153,15 +182,34 @@ public abstract class DataAccessObject<Model> {
 			return result.getBigDecimal(columnName);
 		}
 
-		if (columnMapping.getType().equals(Long.class)) {
+		if (columnMapping.getType().equals(Long.class) || columnMapping.getType().equals(long.class)) {
 			return result.getLong(columnName);
 		}
 
-		if (columnMapping.getType().equals(Integer.class)) {
+		if (columnMapping.getType().equals(Integer.class) || columnMapping.getType().equals(int.class)) {
 			return result.getInt(columnName);
 		}
 
 		return null;
+	}
+	
+	private String getQueryComparator(ColumnMapping columnMapping) {
+		
+		if (columnMapping.getType().equals(String.class)) {
+			return " like ";
+		}
+
+		if (columnMapping.getType().equals(Date.class) || 
+				columnMapping.getType().equals(BigDecimal.class) ||
+				columnMapping.getType().equals(Long.class) ||
+				columnMapping.getType().equals(long.class) ||
+				columnMapping.getType().equals(Integer.class) ||
+				columnMapping.getType().equals(int.class)) {
+			return " = ";
+		}
+		
+		throw new NotImplementedException(String.format("The type %s are not being handled", columnMapping.getType().getName()));
+
 	}
 
 	@Data
