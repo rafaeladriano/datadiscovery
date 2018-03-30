@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
@@ -20,6 +21,8 @@ import com.jsonar.datadiscovery.dao.CustomerDataAccessObjet;
 import com.jsonar.datadiscovery.model.Customer;
 
 public class CustomerLazyDataModel extends LazyDataModel<Customer> {
+	
+	private static Logger LOGGER = Logger.getLogger(CustomerLazyDataModel.class);
 
 	private static final long serialVersionUID = 4872852190639740259L;
 
@@ -72,12 +75,14 @@ public class CustomerLazyDataModel extends LazyDataModel<Customer> {
 				customers = customerDataAccess.getCustomers(first, pageSize, handledFilters);
 
 			} catch (SQLException e) {
+				LOGGER.error(e.getMessage(), e);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Customer filter failed", null));
 			} finally {
 				ConnectionPool.returnConnection(connection);
 			}
 			
 		} catch (ConnectionPoolException e1) {
+			LOGGER.error(e1.getMessage(), e1);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, e1.getMessage(), null));
 		}
 		

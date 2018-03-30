@@ -10,11 +10,14 @@ import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.apache.log4j.Logger;
 
 import com.jsonar.datadiscovery.configuration.Property;
 import com.jsonar.datadiscovery.controller.ConnectionPoolException;
 
 public class ConnectionPool extends GenericObjectPool<Connection> {
+	
+	private static Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
 	private static volatile ConnectionPool connectionPool;
 
@@ -46,6 +49,7 @@ public class ConnectionPool extends GenericObjectPool<Connection> {
 		} catch (SQLException e) {
 			throw new ConnectionPoolException("Something is not right, try again later", e);
 		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 	}

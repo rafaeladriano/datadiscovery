@@ -4,7 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 public class PropertiesReader {
+	
+	private static Logger LOGGER = Logger.getLogger(PropertiesReader.class);
 	
 	private static volatile Properties properties;
 
@@ -23,6 +27,7 @@ public class PropertiesReader {
 					try {
 						properties.load(stream);
 					} catch (IOException e) {
+						LOGGER.error(e.getMessage(), e);
 						throw new RuntimeException(e);
 					}
 				}

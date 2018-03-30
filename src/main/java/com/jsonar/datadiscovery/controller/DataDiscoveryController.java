@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.log4j.Logger;
 import org.primefaces.event.SelectEvent;
 
 import com.jsonar.datadiscovery.dao.ConnectionPool;
@@ -26,6 +27,8 @@ import lombok.Setter;
 @ManagedBean
 @ViewScoped
 public class DataDiscoveryController implements Serializable {
+	
+	private static Logger LOGGER = Logger.getLogger(DataDiscoveryController.class);
 
 	private static final long serialVersionUID = -5915670661765139271L;
 
@@ -55,11 +58,13 @@ public class DataDiscoveryController implements Serializable {
 				orders = orderDataAccess.getOrders(customer);
 				orderDetails.clear();
 			} catch (SQLException e) {
+				LOGGER.error(e.getMessage(), e);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Customer filter failed", null));
 			} finally {
 				ConnectionPool.returnConnection(connection);
 			}
 		} catch (ConnectionPoolException e1) {
+			LOGGER.error(e1.getMessage(), e1);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, e1.getMessage(), null));
 		}
 	}
