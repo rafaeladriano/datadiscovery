@@ -23,7 +23,7 @@ public class PropertiesReader {
 			synchronized (PropertiesReader.class) {
 				if (properties == null) {
 					properties = new Properties();
-					InputStream stream = PropertiesReader.class.getResourceAsStream("/com/jsonar/datadiscovery/configuration/configuration.properties");
+					InputStream stream = PropertiesReader.class.getResourceAsStream("/configuration.properties");
 					try {
 						properties.load(stream);
 					} catch (IOException e) {
