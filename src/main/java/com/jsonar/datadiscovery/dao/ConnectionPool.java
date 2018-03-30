@@ -12,6 +12,7 @@ import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.jsonar.datadiscovery.configuration.Property;
+import com.jsonar.datadiscovery.controller.ConnectionPoolException;
 
 public class ConnectionPool extends GenericObjectPool<Connection> {
 
@@ -34,15 +35,16 @@ public class ConnectionPool extends GenericObjectPool<Connection> {
 		setConfig(objectPoolConfiguration);
 	}
 
-	public static Connection getConnection() {
+	public static Connection getConnection() throws ConnectionPoolException {
 
 		loadConnectionPool();
 
 		try {
 			return connectionPool.borrowObject();
-			// TODO tratar excecoes
 		} catch (NoSuchElementException e) {
-			throw new RuntimeException(e);
+			throw new ConnectionPoolException("Overloaded server, wait a few seconds and try again", e);
+		} catch (SQLException e) {
+			throw new ConnectionPoolException("Something is not right, try again later", e);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -67,7 +69,7 @@ public class ConnectionPool extends GenericObjectPool<Connection> {
 	public static class ConnectionPoolFactory implements PooledObjectFactory<Connection> {
 
 		@Override
-		public PooledObject<Connection> makeObject() throws Exception {
+		public PooledObject<Connection> makeObject() throws SQLException, ClassNotFoundException {
 			Class.forName("com.mysql.jdbc.Driver");
 			return new DefaultPooledObject<Connection>(DriverManager.getConnection(Property.DATABASE_URL.get(), Property.DATABASE_USER.get(), Property.DATABASE_PASSWORD.get()));
 		}

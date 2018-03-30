@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jsonar.datadiscovery.controller.ConnectionPoolException;
 import com.jsonar.datadiscovery.dao.ConnectionPool;
 import com.jsonar.datadiscovery.dao.OrderDataAccessObject;
 import com.jsonar.datadiscovery.model.Customer;
@@ -20,7 +21,7 @@ public class OrderDataAccessObjectTest {
 	private Connection connection;
 
 	@Before
-	public void beforeTest() {
+	public void beforeTest() throws ConnectionPoolException {
 		connection = ConnectionPool.getConnection();
 	}
 

@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.event.SelectEvent;
 
@@ -46,16 +48,19 @@ public class DataDiscoveryController implements Serializable {
 	public void onCustomerSelect(SelectEvent event) {
 		Customer customer = (Customer) event.getObject();
 
-		Connection connection = ConnectionPool.getConnection();
 		try {
-			OrderDataAccessObject orderDataAccess = new OrderDataAccessObject(connection);
-			orders = orderDataAccess.getOrders(customer);
-			orderDetails.clear();
-		} catch (SQLException e) {
-			// TODO tratar excecao
-			e.printStackTrace();
-		} finally {
-			ConnectionPool.returnConnection(connection);
+			Connection connection = ConnectionPool.getConnection();
+			try {
+				OrderDataAccessObject orderDataAccess = new OrderDataAccessObject(connection);
+				orders = orderDataAccess.getOrders(customer);
+				orderDetails.clear();
+			} catch (SQLException e) {
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Customer filter failed", null));
+			} finally {
+				ConnectionPool.returnConnection(connection);
+			}
+		} catch (ConnectionPoolException e1) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, e1.getMessage(), null));
 		}
 	}
 
